@@ -1,0 +1,32 @@
+<div class="root">
+    <div class="image-div">
+        <img src={{cartItem.food.url}} [alt]="cartItem.food.name" />
+    </div>
+    <div class="content-div">
+        <div class="content-internal-div">
+            <div class="name-div">
+                <h3>{{cartItem.food.name}}</h3>
+                <p>{{cartItem.food.category}}</p>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" class="pricing-div">
+                <h2>Rs.{{cartItem.food.basePrice}}</h2>
+            </div>
+        </div>
+        <h5>{{cartItem.food.description}}</h5>
+        <h5>Qty : {{cartItem.quantity}}</h5>
+        <h5 *ngIf="cartItem.varient">Varient : {{cartItem.varient.name}} (+Rs.{{cartItem.varient.addedPrice}})</h5>
+        <div *ngIf="cartItem.addOns.length > 0">
+            <h5 style="margin-bottom: 0px;">Add Ons</h5>
+            <ul>
+                <li *ngFor="let addOn of cartItem.addOns">{{addOn.name}} (+Rs.{{addOn.addedPrice}})</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="20px">
+    <h2>Total Price : Rs.{{cartItem.quantity * cartItem.finalPrice}}</h2>
+    <div>
+        <button mat-raised-button (click)="updateCart()">Update</button>
+    </div>
+</div>
+<mat-divider></mat-divider>

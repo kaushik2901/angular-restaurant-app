@@ -1,0 +1,30 @@
+.root {
+    display: flex;
+    max-width: 800px;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.root > div {
+    margin: 10px;
+}
+
+.image-div {
+    flex: 3;
+    justify-content: center;
+    text-align: center;
+}
+
+.image-div > img {
+    max-width: 200px;
+    height: auto;
+}
+
+.content-div {
+    flex: 9;
+}
+
+.content-internal-div {
+    display: flex;
+    justify-content: space-between;
+}

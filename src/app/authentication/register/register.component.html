@@ -1,0 +1,37 @@
+<div fxLayout="row" fxLayout.sm="column" fxLayoutAlign="start start" fxLayoutGap="0px">
+    <div 
+        fxFlex="50%" 
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        style="height: 100vh;"
+    >
+        <h3 class="mat-display-1">Liquidly Restaurant</h3>
+        <app-registration-form [isLoading]="isUserRegistrationLoading$ | async" (submit)="register($event)"></app-registration-form>
+        <br />
+        <mat-divider></mat-divider>
+        <button mat-button (click)="goToLogin()">Login for existing user</button>
+    </div>
+    <div 
+        fxFlex="50%" 
+        class="login-image-div"
+        fxLayout="column"
+        fxLayoutAlign="end center"
+        style="height: 100vh;"
+    >
+        <!-- <div
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            style="margin-bottom: 20px;"
+        >
+            <button mat-fab color="primary" style="margin: 10px;" aria-label="Example icon button with a delete icon">
+                <mat-icon>email</mat-icon>
+            </button>
+            <button mat-fab color="primary" style="margin: 10px;" aria-label="Example icon button with a delete icon">
+                <mat-icon>map</mat-icon>
+            </button>
+            <button mat-fab color="primary" style="margin: 10px;" aria-label="Example icon button with a delete icon">
+                <mat-icon>share</mat-icon>
+            </button>
+        </div> -->
+    </div>
+</div>

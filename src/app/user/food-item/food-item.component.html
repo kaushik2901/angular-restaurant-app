@@ -1,0 +1,74 @@
+<mat-progress-bar *ngIf="isLoadingFood" mode="indeterminate"></mat-progress-bar>
+<div *ngIf="!isLoadingFood" class="horizontal-margin">
+    <!-- <p>food-item works! {{foodfood$ | async | json}}</p> -->
+    <div class="container-div">
+        <div
+            fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="40px">
+            <div fxFlex="20%">
+                <img [src]="food.url" [alt]="food.name" style="width: 100%;" />
+            </div>
+            <div fxFlex="80%">
+                <div fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+                    <p class="mat-headline">{{food.name}}</p>
+                    <h4>{{food.category}}</h4>
+                    <p>{{food.description}}</p>
+                </div>
+            </div>
+        </div>
+        <br /><br />
+        <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+            <form [formGroup]="cartForm" (ngSubmit)="addToCart()">
+                <div fxFlex="35%">
+                        <p class="mat-title">Varients</p>
+                        <input type="hidden" name="name" [value]="food.name" />
+                        <input type="hidden" name="category" [value]="food.category" />
+                        <br />
+                        <mat-radio-group (change)="radioChange($event)" formControlName="varient" [value]="'base_value'" aria-label="Select a varient">
+                            <div style="display: block;">
+                                <mat-radio-button [value]="'base_value'" style="margin-bottom: 3px;" >
+                                    <p class="mat-body-strong" style="margin: 0px;">No Varient <span>(+Rs.0.00)</span></p>
+                                </mat-radio-button> 
+                                <p class="mat-caption">Base varient with default price.</p>
+                            </div>
+                            <div *ngFor="let foodVerient of food.varients" style="display: block;">
+                                <mat-radio-button [value]="foodVerient._id" style="margin-bottom: 3px;">
+                                    <p class="mat-body-strong" style="margin: 0px;">{{foodVerient.name}} <span>(+Rs.{{foodVerient.addedPrice}})</span></p>
+                                </mat-radio-button> 
+                                <p class="mat-caption">{{foodVerient.description}}</p>
+                            </div>
+                        </mat-radio-group>
+                </div>
+                <div fxFlex="35%">
+                        <p class="mat-title">Add-ons</p>
+                        <br />
+                        <div *ngFor="let addOn of food.addOns; let i = index" style="display: block;">
+                            <mat-checkbox (change)="selectChange($event)" [name]="i" style="margin-bottom: 3px;" [checked]="this.cartForm.get('addOns').value[i]">
+                                <p class="mat-body-strong" style="margin: 0px;">{{addOn.name}} <span>(+Rs.{{addOn.addedPrice}})</span></p>
+                            </mat-checkbox>
+                            <p class="mat-caption">{{addOn.description}}</p>
+                        </div>
+                </div>
+                <div fxFlex="30%">
+                    <div>
+                        <p class="mat-title">Add to Cart</p>
+                        <br />
+                        <p class="mat-subheading-2">Quantity</p>
+                        <button type="button" mat-icon-button color="primary" (click)="addQty(1)"><mat-icon>add</mat-icon></button>
+                        <button type="button" mat-button disableRipple>{{cartForm.get('qty').value}}</button>
+                        <button type="button" mat-icon-button color="primary" (click)="addQty(-1)"><mat-icon>remove</mat-icon></button>
+                        <!-- <button mat-raised-button color="primary">+</button<button mat-raised-button color="primary">-</button> -->
+                        <br /><br />
+                        <p class="mat-subheading-2">Final Price - Rs. {{cartForm.get('qty').value * this.cartForm.get('finalPrice').value}}</p>
+                        <button type="submit" mat-raised-button color="primary"><mat-icon>add_shopping_cart</mat-icon> {{isUpdating ? 'Update Cart' : 'Add to Cart'}}</button>&nbsp;
+                        <button type="button" (click)="resetForm()" mat-button><mat-icon>replay</mat-icon> Reset</button>
+                        <br /><br />
+                        <div *ngIf="showCartOptions">
+                            <button type="button" (click)="goToUrl('user/my-cart')" mat-raised-button color="accent"><mat-icon>shopping_cartt</mat-icon> Continue to cart</button>&nbsp;
+                            <button type="button" (click)="goToUrl('user/')" mat-button><mat-icon>restaurant_menu</mat-icon> Continue to menu</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

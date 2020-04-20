@@ -1,0 +1,46 @@
+<form 
+    fxFlex="400px"
+    fxLayout="column"
+    fxLayoutAlign="center"
+    #loginForm="ngForm"
+    novalidate
+>
+    <mat-form-field appearance="outline" style="margin-bottom: 10px;">
+        <mat-label>Email</mat-label>
+        <input 
+            #emailField="ngModel"
+            matInput 
+            name="email"
+            email="true"
+            autoComplete="off"
+            [(ngModel)]="credentialModel.email"
+            placeholder="e.g example@email.com"
+            required 
+        />
+        <mat-error *ngIf="emailField.value == '' || emailField.untouched">Email is required</mat-error>
+        <mat-error *ngIf="emailField.value != '' && !emailField.valid && !emailField.untouched">Please enter valid email address</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="margin-bottom: 10px;">
+        <mat-label>Password</mat-label>
+        <input 
+        #passwordField="ngModel"
+        name="password" 
+        matInput 
+        [(ngModel)]="credentialModel.password"
+        placeholder="Password" 
+        type="password"
+        password="true"
+        required
+        />
+        <mat-error>Password is required</mat-error>
+    </mat-form-field>
+    <br />
+    <div
+        fxLayout="row"
+        fxFlexAlign="center"
+        fxLayoutGap="20px"
+    >
+    <button type="button" color="primary" mat-raised-button [disabled]="isLoading || !loginForm.form.valid" (click)="userClicked()">{{ nextClicked && isLoading ? "Loading" : "Login as User" }}</button>
+    <button type="button" mat-raised-button [disabled]="isLoading || !loginForm.form.valid" (click)="staffClicked()">{{ !nextClicked && isLoading ? "Loading" : "Login as Staff" }}</button>
+    </div>
+</form>

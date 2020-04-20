@@ -1,0 +1,85 @@
+<form 
+    fxFlex="400px"
+    fxLayout="column"
+    fxLayoutAlign="center"
+    #registrationForm="ngForm"
+    (ngSubmit)="submitForm(registrationForm.form.valid)"
+    novalidate
+  >
+    <mat-form-field  appearance="outline">
+      <mat-label>Name</mat-label>
+      <input 
+        #nameField="ngModel"
+        matInput 
+        name="name"
+        autoComplete="off"
+        [(ngModel)]="registrationModel.name"
+        required 
+      />
+      <mat-error *ngIf="nameField.value == '' || nameField.untouched">Name is required</mat-error>
+      <mat-error *ngIf="nameField.value != '' && !nameField.valid && !nameField.untouched">Please enter valid name</mat-error>
+    </mat-form-field>
+    <mat-form-field  appearance="outline">
+        <mat-label>Email</mat-label>
+        <input 
+          #emailField="ngModel"
+          matInput 
+          name="email"
+          email="true"
+          autoComplete="off"
+          [(ngModel)]="registrationModel.email"
+          placeholder="e.g example@email.com"
+          required 
+        />
+        <mat-error *ngIf="emailField.value == '' || emailField.untouched">Email is required</mat-error>
+        <mat-error *ngIf="emailField.value != '' && !emailField.valid && !emailField.untouched">Please enter valid email address</mat-error>
+    </mat-form-field>
+    <mat-form-field  appearance="outline">
+        <mat-label>Password</mat-label>
+        <input 
+          #passwordField="ngModel"
+          name="password" 
+          matInput 
+          autoComplete="off"
+          [(ngModel)]="registrationModel.password"
+          placeholder="Password" 
+          type="password"
+          password="true"
+          required
+        />
+        <mat-error>Password is required</mat-error>
+    </mat-form-field>
+    <mat-form-field  appearance="outline">
+      <mat-label>Address Line 1</mat-label>
+      <input 
+        #addressLineOneField="ngModel"
+        matInput 
+        autoComplete="off"
+        name="addressLineOne"
+        [(ngModel)]="registrationModel.addressLineOne"
+        required 
+      />
+      <mat-error *ngIf="addressLineOneField.value == '' || addressLineOneField.untouched">Address Line 1 is required</mat-error>
+      <mat-error *ngIf="addressLineOneField.value != '' && !addressLineOneField.valid && !addressLineOneField.untouched">Please enter valid address</mat-error>
+    </mat-form-field>
+    <mat-form-field  appearance="outline">
+      <mat-label>Address Line 2</mat-label>
+      <input 
+        #addressLineTwoField="ngModel"
+        matInput 
+        autoComplete="off"
+        name="addressLineTwo"
+        [(ngModel)]="registrationModel.addressLineTwo"
+        required 
+      />
+      <mat-error *ngIf="addressLineTwoField.value == '' || addressLineTwoField.untouched">Address Line 2 is required</mat-error>
+      <mat-error *ngIf="addressLineTwoField.value != '' && !addressLineTwoField.valid && !addressLineTwoField.untouched">Please enter valid address</mat-error>
+    </mat-form-field>
+    <div
+        fxLayout="row"
+        fxFlexAlign="center"
+        fxLayoutGap="20px"
+    >
+      <button type="submit" mat-raised-button [disabled]="isLoading || !registrationForm.form.valid">{{ isLoading ? "Loading" : "Register" }}</button>
+    </div>
+</form>

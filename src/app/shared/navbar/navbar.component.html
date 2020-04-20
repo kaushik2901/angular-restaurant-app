@@ -1,0 +1,7 @@
+<mat-toolbar>
+    <span>Liquidly</span>
+    <span class="fill-remaining-space"></span>  
+    <span>
+        <button mat-button *ngFor="let item of menuList" [routerLinkActive]="['is-active']" (click)="goToLink(item.url)" [matBadge]="item.badgeCount ? item.badgeCount : null" matBadgeSize="small" matBadgePosition="after" matBadgeColor="primary">{{item.title}}</button>
+    </span>
+</mat-toolbar>

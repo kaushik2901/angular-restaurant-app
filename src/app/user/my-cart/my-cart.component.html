@@ -1,0 +1,18 @@
+<div  *ngIf="cartList$ | async as data" class="horizontal-margin">
+    <br /><br />
+    <h2 style="text-align: center;">My Cart</h2>
+    <div 
+        style="display: flex;"
+        *ngFor="let item of data" 
+    >
+        <app-my-cart-tile-ui [cart-item]="item" style="margin: 0px auto;"></app-my-cart-tile-ui>
+    </div>
+    <br /><br />
+    <div *ngIf="totalPrice$ | async as price" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+        <h2>Total Price : {{price}}</h2>
+        <div>
+            <button mat-raised-button (click)="clearCart()"><mat-icon>clear</mat-icon> Empty Cart</button>&nbsp;&nbsp;
+            <button mat-raised-button color="primary" (click)="checkOut()" [disabled]="isChecingOut"><mat-icon>check</mat-icon> {{isChecingOut ? "Loading": "Check out"}}</button>
+        </div>
+    </div>
+</div>

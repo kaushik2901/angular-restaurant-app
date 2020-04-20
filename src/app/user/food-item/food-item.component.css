@@ -1,0 +1,15 @@
+.horizontal-margin {
+    margin: 0px 120px;
+}
+
+@media (max-width: 900px) {
+    .horizontal-margin {
+        margin: 0px 30px;
+    }
+}
+
+.container-div {
+    display: block;
+    margin-top: 10px;
+}
+

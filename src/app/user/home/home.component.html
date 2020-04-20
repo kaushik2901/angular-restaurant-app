@@ -1,0 +1,15 @@
+<mat-progress-bar *ngIf="foodLoadingStatus$ | async" mode="indeterminate"></mat-progress-bar>
+<div  *ngIf="!(foodLoadingStatus$ | async)" class="horizontal-margin">
+    <div class="categories-chip">
+        <mat-chip-list aria-label="Fish selection">
+            <mat-chip style="cursor: pointer;" *ngFor="let category of categories$ | async" [selected]="category == selectedCategory" (click)="selectCategory(category)">{{category}}</mat-chip>
+        </mat-chip-list>
+    </div>
+    <br /><br />
+    <div 
+        class="food-item-div"
+        *ngFor="let food of foodList$ | async" 
+    >
+        <app-food-tile-ui (click)="gotoFood(food._id)" [foodData]="food" style="margin: 0px auto;"></app-food-tile-ui>
+    </div>
+</div>

@@ -1,0 +1,176 @@
+<mat-progress-bar *ngIf="isLoadingFood" mode="indeterminate"></mat-progress-bar>
+<div class="horizontal-margin">
+    <br /><br />
+    <h2 style="text-align: center;">{{isUpdating ? "Edit Food Item" : "Add Food Item"}}</h2>
+    <br /><br />
+    <form [formGroup]="foodItemForm" (submit)="submit()">
+        <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+
+            <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px">
+                <div fxFlex>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Name</mat-label>
+                        <input
+                            matInput 
+                            name="name"
+                            formControlName="name"
+                            type="text"
+                            autoComplete="off"
+                            placeholder="e.g Pizza"
+                            required 
+                        />
+                    </mat-form-field>
+                </div>
+                <div fxFlex>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Category</mat-label>
+                        <input
+                            matInput 
+                            name="category"
+                            formControlName="category"
+                            type="text"
+                            autoComplete="off"
+                            placeholder="e.g Italian"
+                            required 
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxFlex>
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Image URL</mat-label>
+                    <input
+                        matInput 
+                        name="url"
+                        formControlName="url"
+                        autoComplete="off"
+                        type="url"
+                        required 
+                    />
+                </mat-form-field>
+            </div>
+            <!-- <button type="button" style="margin-bottom: 20px;" mat-raised-button>Preview Image</button> -->
+            <div fxFlex>
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Description</mat-label>
+                    <textarea
+                        matInput 
+                        name="description"
+                        formControlName="description"
+                        autoComplete="off"
+                        type="text"
+                        required 
+                    ></textarea>
+                </mat-form-field>
+            </div>
+            <div fxFlex>
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Base Price</mat-label>
+                    <input
+                        matInput 
+                        name="basePrice"
+                        formControlName="basePrice"
+                        autoComplete="off"
+                        type="number"
+                        required 
+                    />
+                </mat-form-field>
+            </div>
+            <button type="button" style="margin-bottom: 20px;" (click)="addVarient()" color="primary" mat-raised-button>Add Varient</button>&nbsp;&nbsp;
+            <button type="button" style="margin-bottom: 20px;" (click)="removeVarient()" mat-raised-button>Remove Varient</button><br />
+            <div *ngFor="let varient of getVarients.controls; let i = index" formArrayName="varients">
+                <div [formGroupName]="i">
+                    <h2 style="margin-bottom: 20px;">Varient {{i + 1}}</h2>
+                    <div fxFlex>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Name</mat-label>
+                            <input
+                                matInput
+                                formControlName="name" 
+                                name="name"
+                                autoComplete="off"
+                                type="text"
+                                required 
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Description</mat-label>
+                            <input
+                                matInput
+                                formControlName="description" 
+                                name='description'
+                                autoComplete="off"
+                                type="text"
+                                required 
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Added Price</mat-label>
+                            <input
+                                matInput
+                                formControlName="addedPrice" 
+                                name='addedPrice'
+                                autoComplete="off"
+                                type="number"
+                                required 
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <button type="button" style="margin-bottom: 20px;" (click)="addAddOn()" color="primary" mat-raised-button>Add Add Ons</button>&nbsp;&nbsp;
+            <button type="button" style="margin-bottom: 20px;" (click)="removeAddOn()" mat-raised-button>Remove Add Ons</button><br />
+            <div *ngFor="let varient of getAddOns.controls; let i = index" formArrayName="addOns">
+                <div [formGroupName]="i">
+                    <h2 style="margin-bottom: 20px;">Add On {{i + 1}}</h2>
+                    <div fxFlex>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Name</mat-label>
+                            <input
+                                matInput
+                                formControlName="name" 
+                                name="name"
+                                autoComplete="off"
+                                type="text"
+                                required 
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Description</mat-label>
+                            <input
+                                matInput
+                                formControlName="description" 
+                                name='description'
+                                autoComplete="off"
+                                type="text"
+                                required 
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Added Price</mat-label>
+                            <input
+                                matInput
+                                formControlName="addedPrice" 
+                                name='addedPrice'
+                                autoComplete="off"
+                                type="number"
+                                required 
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" [disabled]="!foodItemForm.valid" style="margin-bottom: 20px;" color="primary" mat-raised-button>{{isUpdating ? "Update" : "Add"}}</button>
+            &nbsp;&nbsp;
+            <button type="reset" style="margin-bottom: 20px;" mat-raised-button>Reset</button>
+        </div>
+    </form>
+</div>
