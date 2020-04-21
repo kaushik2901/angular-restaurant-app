@@ -6,7 +6,7 @@ import { FoodState } from '../models/foodState';
 import { Store } from '@ngrx/store';
 import * as foodAction from '../../shared/store/foods/foods.action';
 import { getFoodItemById } from '../../shared/store/foods/foods.selector';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, take } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MyCartItem, UserState } from '../models/userState';
 import { userAction } from '../store/index';
@@ -212,28 +212,25 @@ export class FoodItemComponent implements OnInit, OnDestroy {
       console.log(finalData);      
       this.userStore.dispatch(userAction.updateCart({ item: finalData }));
     } else {
-      this.shouldUpdate = true;
-      this.cardListSubscription = this.store.select(getCartList).subscribe(cartList => {
-        // if(this.shouldUpdate) {
-          console.log("cart List", cartList.length, cartList);
-          for (let i = 0; i < cartList.length; i++) {
-              const item = cartList[i];
-              if(this.isBothItemAreEqual(item, finalData)) {
-                  console.log("updating old item");                            
-                  const newItem = Object.assign({}, item);
-                  newItem.quantity = item.quantity + finalData.quantity;
-                  this.store.dispatch(userAction.updateCart({ item: newItem }));
-                  // this.shouldUpdate = false;
-                  this.cardListSubscription?.unsubscribe();
-                  return;
-              }
-          }
-          console.log("adding new item");                    
-          this.store.dispatch(userAction.addToCart({ item: finalData }));
-          // this.shouldUpdate = false;
-          this.cardListSubscription?.unsubscribe();
-          return;    
-        // }
+      this.cardListSubscription = this.store.select(getCartList)
+      .pipe(take(1))
+      .subscribe(cartList => {
+        console.log("cart List", cartList.length, cartList);
+        for (let i = 0; i < cartList.length; i++) {
+            const item = cartList[i];
+            if(this.isBothItemAreEqual(item, finalData)) {
+                console.log("updating old item");                            
+                const newItem = Object.assign({}, item);
+                newItem.quantity = item.quantity + finalData.quantity;
+                this.store.dispatch(userAction.updateCart({ item: newItem }));
+                this.cardListSubscription?.unsubscribe();
+                return;
+            }
+        }
+        console.log("adding new item");                    
+        this.store.dispatch(userAction.addToCart({ item: finalData }));
+        this.cardListSubscription?.unsubscribe();
+        return;
       });
     }
     this.showCartOptions = true;
