@@ -44,6 +44,10 @@ export class MyCartComponent implements OnInit, OnDestroy {
     this.store.dispatch(userAction.clearCart());
   }
 
+  deleteCartById(_id: string) {
+    this.store.dispatch(userAction.removeCartItem({ _id }));
+  }
+
   checkOut() {
     this.isChecingOut = true;
     this.store.select(getCartList)

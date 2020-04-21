@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MyCartItem } from '../../user/models/userState';
 import { Router } from '@angular/router';
 
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class MyCartTileUiComponent implements OnInit {
 
   @Input('cart-item') cartItem: MyCartItem;
+  @Output('on-delete') onDelete = new EventEmitter<string>();
 
   constructor(private router: Router) { }
 
@@ -18,6 +19,10 @@ export class MyCartTileUiComponent implements OnInit {
 
   updateCart() {
     this.router.navigateByUrl(`/user/food/update/${this.cartItem._id}`);
+  }
+
+  deleteCart() {
+    this.onDelete.emit(this.cartItem._id);
   }
 
 }

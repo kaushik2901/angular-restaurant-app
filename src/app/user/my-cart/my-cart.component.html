@@ -5,7 +5,7 @@
         style="display: flex;"
         *ngFor="let item of data" 
     >
-        <app-my-cart-tile-ui [cart-item]="item" style="margin: 0px auto;"></app-my-cart-tile-ui>
+        <app-my-cart-tile-ui (on-delete)="deleteCartById($event)" [cart-item]="item" style="margin: 0px auto;"></app-my-cart-tile-ui>
     </div>
     <br /><br />
     <div *ngIf="totalPrice$ | async as price" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
