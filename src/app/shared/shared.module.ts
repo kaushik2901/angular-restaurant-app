@@ -14,11 +14,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { FoodsEffects } from './store/foods/foods.effects';
 import { MyCartTileUiComponent } from './my-cart-tile-ui/my-cart-tile-ui.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { WithFixedFloatPipe } from './pips/with-fixed-float.pipe';
 
 
 
 @NgModule({
-  declarations: [NavbarComponent, FoodTileUiComponent, MyCartTileUiComponent,],
+  declarations: [NavbarComponent, FoodTileUiComponent, MyCartTileUiComponent, WithFixedFloatPipe,],
   imports: [
     CommonModule,
     RouterModule,
@@ -35,7 +36,8 @@ import { MatDividerModule } from '@angular/material/divider';
   exports: [
     NavbarComponent,
     FoodTileUiComponent,
-    MyCartTileUiComponent
+    MyCartTileUiComponent,
+    WithFixedFloatPipe,
   ]
 })
 export class SharedModule { }

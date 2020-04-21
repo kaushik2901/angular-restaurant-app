@@ -10,7 +10,7 @@ import { concatMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MyCartItem, UserState } from '../models/userState';
 import { userAction } from '../store/index';
-import { getCartById } from '../store/user/user.selector';
+import { getCartById, getCartList } from '../store/user/user.selector';
 
 @Component({
   selector: 'app-food-item',
@@ -21,6 +21,7 @@ export class FoodItemComponent implements OnInit, OnDestroy {
 
   public isUpdating: boolean;
   public oldId: string;
+  public shouldUpdate: boolean = false;
 
   public cartForm: FormGroup;
 
@@ -31,6 +32,7 @@ export class FoodItemComponent implements OnInit, OnDestroy {
   public showCartOptions: boolean = false;
   public food: Food;
   public foodSubscription: Subscription;
+  public cardListSubscription: Subscription;
   
   public calculatedFoodPrice: number;
   public selectedVarient: FoodVarients = null;
@@ -150,6 +152,30 @@ export class FoodItemComponent implements OnInit, OnDestroy {
     return s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h));
   }
 
+  isBothItemAreEqual(item1: MyCartItem, item2: MyCartItem): boolean {
+    if(
+        item1.food._id != item2.food._id ||
+        item1.varient?._id != item2.varient?._id ||
+        item1.addOns.length != item2.addOns.length
+    ){
+        console.log("different");          
+        console.log(item1.food._id != item2.food._id , item1.food._id, item2.food._id , );
+        console.log(item1.varient?._id != item2.varient?._id , item1.varient?._id, item2.varient?._id , );
+        console.log(item1.addOns.length != item2.addOns.length, item1.addOns.length, item2.addOns.length, );
+        return false;
+    }
+
+    for (let i = 0; i < item1.addOns.length; i++) {
+        const addOn1 = item1.addOns[i]._id;
+        const addOn2 = item2.addOns[i]._id;
+        if(addOn1 != addOn2) {
+            return false;
+        }
+    }
+    
+    return true;
+  }
+
   addToCart() {
     // this.dialogService.openAlertDialog('text', 'text', 'ok');
     const formValue = this.cartForm.value;
@@ -186,7 +212,29 @@ export class FoodItemComponent implements OnInit, OnDestroy {
       console.log(finalData);      
       this.userStore.dispatch(userAction.updateCart({ item: finalData }));
     } else {
-      this.userStore.dispatch(userAction.addToCart({ item: finalData }));
+      this.shouldUpdate = true;
+      this.cardListSubscription = this.store.select(getCartList).subscribe(cartList => {
+        // if(this.shouldUpdate) {
+          console.log("cart List", cartList.length, cartList);
+          for (let i = 0; i < cartList.length; i++) {
+              const item = cartList[i];
+              if(this.isBothItemAreEqual(item, finalData)) {
+                  console.log("updating old item");                            
+                  const newItem = Object.assign({}, item);
+                  newItem.quantity = item.quantity + finalData.quantity;
+                  this.store.dispatch(userAction.updateCart({ item: newItem }));
+                  // this.shouldUpdate = false;
+                  this.cardListSubscription?.unsubscribe();
+                  return;
+              }
+          }
+          console.log("adding new item");                    
+          this.store.dispatch(userAction.addToCart({ item: finalData }));
+          // this.shouldUpdate = false;
+          this.cardListSubscription?.unsubscribe();
+          return;    
+        // }
+      });
     }
     this.showCartOptions = true;
   }
@@ -207,5 +255,6 @@ export class FoodItemComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.pageParamMap$.unsubscribe();
     this.foodSubscription.unsubscribe();
+    this.cardListSubscription?.unsubscribe();
   }
 }

@@ -9,7 +9,7 @@
     </div>
     <br /><br />
     <div *ngIf="totalPrice$ | async as price" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
-        <h2>Total Price : {{price}}</h2>
+        <h2>Total Price : {{price  | withFixedFloat }}</h2>
         <div>
             <button mat-raised-button (click)="clearCart()"><mat-icon>clear</mat-icon> Empty Cart</button>&nbsp;&nbsp;
             <button mat-raised-button color="primary" (click)="checkOut()" [disabled]="isChecingOut"><mat-icon>check</mat-icon> {{isChecingOut ? "Loading": "Check out"}}</button>

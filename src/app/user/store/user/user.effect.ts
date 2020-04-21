@@ -4,9 +4,11 @@ import { UserState } from 'src/app/models/userState';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as userAction from './user.action';
-import { take, tap, concatMap, map, catchError } from 'rxjs/operators';
+import { take, tap, concatMap, map, catchError, mergeMap } from 'rxjs/operators';
 import { UserApiService } from '../../user-api.service';
-import { EMPTY } from 'rxjs';
+import { EMPTY, combineLatest, of } from 'rxjs';
+import { getCartList } from './user.selector';
+import { MyCartItem } from '../../models/userState';
 
 @Injectable({
     providedIn: 'any'
@@ -39,4 +41,33 @@ export class UserEffects {
                 );
         }),
     );
+
+    // @Effect({ dispatch: false })
+    // addToCart = this.actions$.pipe(
+    //     ofType(userAction.initAddToCart),
+    //     mergeMap((data) => {
+    //         return this.store.select(getCartList)
+    //         .pipe(
+    //             concatMap(cartList => {
+                    
+    //             })
+    //         )
+    //     }),
+    //     // concatMap(([data, cartList]) => {
+    //     //     console.log("cart List", cartList.length, cartList);
+    //     //     for (let i = 0; i < cartList.length; i++) {
+    //     //         const item = cartList[i];
+    //     //         if(this.isBothItemAreEqual(item, data.item)) {
+    //     //             console.log("updating old item");                            
+    //     //             const newItem = Object.assign({}, item);
+    //     //             newItem.quantity = item.quantity + data.item.quantity;
+    //     //             this.store.dispatch(userAction.updateCart({ item: newItem }));
+    //     //             return null;
+    //     //         }
+    //     //     }
+    //     //     console.log("adding new item");                    
+    //     //     this.store.dispatch(userAction.addToCart(data));
+    //     //     return null;                    
+    //     // }),
+    // );
 }
