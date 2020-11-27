@@ -7,14 +7,14 @@ const initialState: UserState = {
     myOrderBadgeCount: 0,
     myCart: {},
     myOrders: {},
-    errorMessage: "",
+    errorMessage: '',
     loading: false,
-}
+};
 
 export const reducer = createReducer(
     initialState,
-    on(userAction.addToCart, (state, { item }) => { 
-        let newMyCart = { ...state.myCart};
+    on(userAction.addToCart, (state, { item }) => {
+        const newMyCart = { ...state.myCart};
         newMyCart[item._id] = item;
         return {
             ...state,
@@ -22,16 +22,16 @@ export const reducer = createReducer(
             myCartBadgeCount: state.myCartBadgeCount + 1
         };
     }),
-    on(userAction.updateCart, (state, { item }) => { 
-        let newMyCart = { ...state.myCart};
+    on(userAction.updateCart, (state, { item }) => {
+        const newMyCart = { ...state.myCart};
         newMyCart[item._id] = item;
         return {
             ...state,
             myCart: newMyCart,
         };
     }),
-    on(userAction.removeCartItem, (state, { _id }) => { 
-        let newMyCart = { ...state.myCart };
+    on(userAction.removeCartItem, (state, { _id }) => {
+        const newMyCart = { ...state.myCart };
         delete newMyCart[_id];
         return {
             ...state,
@@ -41,10 +41,10 @@ export const reducer = createReducer(
     }),
     on(userAction.loadingCart, (state) => ({ ...state, loading: true })),
     on(userAction.loadCartSuccess, (state, { data }) => ({ ...state, myCart: data, loading: false, myCartBadgeCount: Object.keys(data).length })),
-    on(userAction.loadCartError, (state, { errorMessage }) => ({ ...state, errorMessage: errorMessage, loading: false })),
+    on(userAction.loadCartError, (state, { errorMessage }) => ({ ...state, errorMessage, loading: false })),
     on(userAction.incrementMyCartBadge, (state) => ({ ...state, myCartBadgeCount: state.myCartBadgeCount + 1, })),
     on(userAction.incrementMyOrderBadge, (state) => ({ ...state, myOrderBadgeCount: state.myOrderBadgeCount + 1, })),
     on(userAction.clearMyCartBadge, (state) => ({ ...state, myCartBadgeCount: 0, })),
     on(userAction.clearMyOrderBadge, (state) => ({ ...state, myOrderBadgeCount: 0, })),
     on(userAction.clearCart, (state) => ({ ...state, myCartBadgeCount: 0, myCart: {} })),
-)
+);

@@ -19,14 +19,14 @@ export class FoodsEffects {
         ofType(foodsAction.loadFoods),
         take(1),
         tap(() => {
-            console.log("loading");
+            console.log('loading');
             this.store.dispatch(foodsAction.foodLoading());
         }),
         concatMap(() => {
             return this.foodsApi.getFoods()
                 .pipe(
                     map(response => {
-                        if(!response.success) {                          
+                        if (!response.success) {
                             throw response.error;
                         }
                         this.store.dispatch(foodsAction.loadFoodsSuccess({
@@ -37,7 +37,7 @@ export class FoodsEffects {
                     catchError(error => {
                         this.store.dispatch(foodsAction.loadFoodsError({ errorMessage: error }));
                         alert(error);
-                        return EMPTY
+                        return EMPTY;
                     }),
                 );
         }),

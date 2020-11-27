@@ -27,10 +27,10 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   submitForm(valid: boolean) {
-    console.log("value valid", valid);
-    
-    if(valid == true) {
-      console.log("submit registration");    
+    console.log('value valid', valid);
+
+    if (valid == true) {
+      console.log('submit registration');
       this.submit.emit(this.registrationModel);
     }
   }

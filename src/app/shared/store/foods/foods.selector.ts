@@ -21,9 +21,9 @@ export const getFoodItemById = (_id: string) => createSelector(
 export const getFoodList = (category: string = 'All') => createSelector(
     getFoodsEntities,
     foodObject => {
-        let list = Object.keys(foodObject);
-        let data = list.map(id => foodObject[id]);       
-        return data.filter(item => category == 'All'? true: item.category == category);
+        const list = Object.keys(foodObject);
+        const data = list.map(id => foodObject[id]);
+        return data.filter(item => category == 'All' ? true : item.category == category);
     }
 );
 
@@ -34,7 +34,7 @@ export const getCategories = createSelector(
         test.add('All');
         for (let i = 0; i < foodState.length; i++) {
             const element = foodState[i];
-            test.add(element.category);            
+            test.add(element.category);
         }
         return Array.from(test);
     }

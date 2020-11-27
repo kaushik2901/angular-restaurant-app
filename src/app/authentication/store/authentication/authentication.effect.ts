@@ -17,31 +17,31 @@ export class AuthenticationEffects {
     @Effect({ dispatch: false })
     initiateLogin = this.actions$.pipe(
         ofType(authenticationAction.initiateUserLogin),
-        tap((data) => console.log("test", data)),
+        tap((data) => console.log('test', data)),
         // take(1),
         tap(() => {
-            console.log("loading");
+            console.log('loading');
             this.store.dispatch(authenticationAction.loadingUserLogin());
         }),
         concatMap(payload => {
             return iif(
-                () => payload.loginType == 'user', 
+                () => payload.loginType == 'user',
                 this.authService.loginUser(payload.payload),
                 this.authService.loginStaff(payload.payload)
                 )
                 .pipe(
                     map(response => {
-                        if(!response.success) {                          
+                        if (!response.success) {
                             throw response.error;
                         }
                         this.store.dispatch(authenticationAction.loginUserSuccess({ token: response.data.token, name: response.data.name, }));
                     }),
                     catchError(error => {
-                        this.store.dispatch(authenticationAction.loginUserFail({ errorMessage: error }))
+                        this.store.dispatch(authenticationAction.loginUserFail({ errorMessage: error }));
                         alert(error);
-                        return EMPTY
+                        return EMPTY;
                     }),
-                )
+                );
         })
     );
 
@@ -49,7 +49,7 @@ export class AuthenticationEffects {
     successLogin = this.actions$.pipe(
         ofType(authenticationAction.loginUserSuccess),
         tap(() => {
-            console.log("success");            
+            console.log('success');
             this.router.navigateByUrl('/auth/register');
         })
     );
@@ -59,24 +59,24 @@ export class AuthenticationEffects {
         ofType(authenticationAction.initiateUserRegistration),
         take(1),
         tap(() => {
-            console.log("loading");
+            console.log('loading');
             this.store.dispatch(authenticationAction.loadingUserLogin());
         }),
         concatMap(payload => {
             return this.authService.registerUser(payload.payload)
                 .pipe(
                     map(response => {
-                        if(!response.success) {                          
+                        if (!response.success) {
                             throw response.error;
                         }
                         this.store.dispatch(authenticationAction.registerUserSuccess());
                     }),
                     catchError(error => {
-                        this.store.dispatch(authenticationAction.loginUserFail({ errorMessage: error }))
+                        this.store.dispatch(authenticationAction.loginUserFail({ errorMessage: error }));
                         alert(error);
-                        return EMPTY
+                        return EMPTY;
                     }),
-                )
+                );
         })
     );
 
@@ -84,7 +84,7 @@ export class AuthenticationEffects {
     successRegistration = this.actions$.pipe(
         ofType(authenticationAction.registerUserSuccess),
         tap(() => {
-            console.log("success");            
+            console.log('success');
             this.router.navigateByUrl('/auth/login');
         })
     );

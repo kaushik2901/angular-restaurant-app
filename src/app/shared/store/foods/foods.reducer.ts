@@ -7,22 +7,22 @@ const initialState: FoodState = {
     categories: [],
     isLoading: false,
     isError: false,
-    errorMessage: "",
+    errorMessage: '',
 };
 
 export const reducer = createReducer(
     initialState,
     on(foodActions.foodLoading, (state) => ({ ...state, isLoading: true })),
-    on(foodActions.loadFoodsSuccess, (state, { foods, categories }) => ({ ...state, isLoading:false, data: foods, categories })),
-    on(foodActions.loadFoodsError, (state, { errorMessage }) => ({ ...state, isLoading: false, isError: true, errorMessage: errorMessage })),
+    on(foodActions.loadFoodsSuccess, (state, { foods, categories }) => ({ ...state, isLoading: false, data: foods, categories })),
+    on(foodActions.loadFoodsError, (state, { errorMessage }) => ({ ...state, isLoading: false, isError: true, errorMessage })),
     on(foodActions.deleteFood, (state, { _id }) => {
-        let tempData = Object.assign({}, state.data);
+        const tempData = Object.assign({}, state.data);
         delete tempData[_id];
-        
-        return { ...state, data: tempData }
+
+        return { ...state, data: tempData };
     }),
     on(foodActions.addFood, (state, { item }) => {
-        let tempData = Object.assign({}, state.data);
+        const tempData = Object.assign({}, state.data);
         tempData[item._id] = item;
         return {
             ...state,
@@ -30,7 +30,7 @@ export const reducer = createReducer(
         };
     }),
     on(foodActions.updateFood, (state, { item }) => {
-        let tempData = Object.assign({}, state.data);
+        const tempData = Object.assign({}, state.data);
         tempData[item._id] = item;
         return {
             ...state,

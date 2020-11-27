@@ -1,4 +1,4 @@
-import { createAction, props } from "@ngrx/store";
+import { createAction, props } from '@ngrx/store';
 import { Food } from 'src/app/shared/models/food.model';
 
 export const INITIATE_FOOD_LOADING = '[User/Admin Home] initiate foods loading';

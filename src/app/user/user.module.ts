@@ -26,13 +26,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { UserEffects } from './store/user/user.effect';
 
 @NgModule({
-  declarations: [HomeComponent, MyOrdersComponent, ShellComponent, FoodItemComponent, MyCartComponent, MyProfileComponent,],
+  declarations: [HomeComponent, MyOrdersComponent, ShellComponent, FoodItemComponent, MyCartComponent, MyProfileComponent, ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     UserRoutingModule,
     SharedModule,
-    
+
     FlexLayoutModule,
     FlexModule,
     MatIconModule,

@@ -23,12 +23,12 @@ export class RegisterComponent implements OnInit {
   }
 
   register(data: UserRegistrationModel) {
-    console.log("register");    
+    console.log('register');
     this.store.dispatch(initiateUserRegistration({
       payload: data
     }));
   }
-  
+
   goToLogin() {
     this.router.navigateByUrl('/auth/login');
   }

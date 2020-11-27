@@ -1,20 +1,20 @@
-import { createAction, props } from "@ngrx/store";
+import { createAction, props } from '@ngrx/store';
 import { MyCartItem } from '../../models/userState';
 
-export const ADD_TO_CART = "[User Food Item] add to cart";
-export const INIT_ADD_TO_CART = "[User Food Item] init add to cart";
-export const UPDATE_CART = "[User Food Item] update cart";
-export const REMOVE_CART_ITEM = "[User Food Item] remove cart item";
-export const LOAD_CART = "[User Cart List] initiating user cart";
-export const LOADING_CART = "[User Cart List] loading user cart";
-export const LOAD_CART_SUCCESS = "[User Cart List] user cart loaded";
-export const LOAD_CART_ERROR = "[User Cart List] user cart failed";
-export const ERROR_OCCURED = "[User Food Item] error";
-export const INCREMENT_MY_CART_BADGE = "[User Navbar] increment my cart badge counter";
-export const CLEAR_MY_CART_BADGE = "[User Navbar] clear my cart badge counter";
-export const INCREMENT_MY_ORDER_BADGE = "[User Navbar] increment my order badge counter";
-export const CLEAR_MY_ORDER_BADGE = "[User Navbar] clear my order badge counter";
-export const CLEAR_CART = "[User Cart] clear cart";
+export const ADD_TO_CART = '[User Food Item] add to cart';
+export const INIT_ADD_TO_CART = '[User Food Item] init add to cart';
+export const UPDATE_CART = '[User Food Item] update cart';
+export const REMOVE_CART_ITEM = '[User Food Item] remove cart item';
+export const LOAD_CART = '[User Cart List] initiating user cart';
+export const LOADING_CART = '[User Cart List] loading user cart';
+export const LOAD_CART_SUCCESS = '[User Cart List] user cart loaded';
+export const LOAD_CART_ERROR = '[User Cart List] user cart failed';
+export const ERROR_OCCURED = '[User Food Item] error';
+export const INCREMENT_MY_CART_BADGE = '[User Navbar] increment my cart badge counter';
+export const CLEAR_MY_CART_BADGE = '[User Navbar] clear my cart badge counter';
+export const INCREMENT_MY_ORDER_BADGE = '[User Navbar] increment my order badge counter';
+export const CLEAR_MY_ORDER_BADGE = '[User Navbar] clear my order badge counter';
+export const CLEAR_CART = '[User Cart] clear cart';
 
 
 export const initAddToCart = createAction(
@@ -30,7 +30,7 @@ export const addToCart = createAction(
 export const updateCart = createAction(
     UPDATE_CART,
     props<{ item: MyCartItem }>()
-)
+);
 
 export const removeCartItem = createAction(
     REMOVE_CART_ITEM,
@@ -43,7 +43,7 @@ export const loadingCart = createAction(LOADING_CART);
 
 export const loadCartSuccess = createAction(
     LOAD_CART_SUCCESS,
-    props<{ data: { [_id:string]: MyCartItem } }>()
+    props<{ data: { [_id: string]: MyCartItem } }>()
 );
 
 export const loadCartError = createAction(

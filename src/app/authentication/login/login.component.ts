@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
     this.isUserAuthLoading$ = this.store.select(getUserLoadingStatus);
   }
 
-  login(event : {loginType: string, data: LoginCredential}) {
-    console.log("submitted");
+  login(event: {loginType: string, data: LoginCredential}) {
+    console.log('submitted');
     this.store.dispatch(initiateUserLogin({
       loginType: event.loginType,
       payload: event.data
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   goToRegister() {
-    this.router.navigateByUrl("/auth/register");
+    this.router.navigateByUrl('/auth/register');
   }
 
 }

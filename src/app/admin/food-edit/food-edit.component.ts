@@ -25,7 +25,7 @@ export class FoodEditComponent implements OnInit, OnDestroy {
   public isUpdating: boolean;
   private foodId: string;
   public food: Food;
-  public isLoadingFood: boolean = true;
+  public isLoadingFood = true;
 
   constructor(private store: Store<FoodState>, private route: ActivatedRoute, private fb: FormBuilder) { }
 
@@ -34,10 +34,10 @@ export class FoodEditComponent implements OnInit, OnDestroy {
   }
 
   get getVarients() {
-    return this.foodItemForm.get('varients') as FormArray; 
+    return this.foodItemForm.get('varients') as FormArray;
   }
   get getAddOns() {
-    return this.foodItemForm.get('addOns') as FormArray; 
+    return this.foodItemForm.get('addOns') as FormArray;
   }
 
   addVarient() {
@@ -92,7 +92,7 @@ export class FoodEditComponent implements OnInit, OnDestroy {
     this.pageParamMapSubscription = this.route.paramMap
     .subscribe((paramMap) => {
       this.foodId = paramMap.get('id');
-      if(this.foodId) {
+      if (this.foodId) {
         this.isUpdating = true;
         this.getFoodItem();
         return;
@@ -112,8 +112,8 @@ export class FoodEditComponent implements OnInit, OnDestroy {
         });
       }
 
-      console.log("isUpdating", this.isUpdating);
-      
+      console.log('isUpdating', this.isUpdating);
+
     });
   }
 
@@ -125,14 +125,14 @@ export class FoodEditComponent implements OnInit, OnDestroy {
   getFoodItem() {
     this.foodSubscription = this.store.select(getFoodItemById(this.foodId)).pipe(
       concatMap(data => {
-        if(!data) {
+        if (!data) {
           this.store.dispatch(foodAction.loadFoods());
           return this.store.select(getFoodItemById(this.foodId));
         }
         return of(data);
       })
     ).subscribe(data => {
-      if(data) {
+      if (data) {
         this.food = data;
         this.isLoadingFood = false;
 
@@ -179,10 +179,10 @@ export class FoodEditComponent implements OnInit, OnDestroy {
 
     // } else {
       // add food
-      if(this.foodItemForm.valid) {
+      if (this.foodItemForm.valid) {
         console.log(this.foodItemForm.value);
         this.store.dispatch(foodAction.addFood({ item: this.foodItemForm.value }));
-        alert("Success");
+        alert('Success');
       }
     // }
   }

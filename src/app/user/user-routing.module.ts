@@ -9,7 +9,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 
 
 const routes: Routes = [
-  { 
+  {
     path: '',
     component: ShellComponent,
     children: [

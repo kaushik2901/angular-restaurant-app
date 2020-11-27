@@ -17,7 +17,7 @@ export class DialogAlertComponent implements OnInit {
   ngOnInit(): void {
     this.dialogTitle = this.data.title;
     this.dialogContent = this.data.content;
-    this.dialogButtonText = this.data.buttonText; 
+    this.dialogButtonText = this.data.buttonText;
   }
 
 }

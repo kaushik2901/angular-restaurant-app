@@ -15,7 +15,7 @@ export class FoodTileUiComponent implements OnInit {
   public data: Food;
   @Input('foodData') set foodData(data: Food) {
     this.data = data;
-  };
+  }
 
   @Input('enable-update') enableUpdate: boolean;
 
@@ -28,7 +28,7 @@ export class FoodTileUiComponent implements OnInit {
   }
 
   delete() {
-    if(confirm("Are you sure?")) {
+    if (confirm('Are you sure?')) {
       this.onDelete.emit(this.data._id);
     }
   }

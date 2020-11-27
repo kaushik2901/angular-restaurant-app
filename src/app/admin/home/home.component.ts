@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   public foodList$: Observable<Food[]>;
   public categories$: Observable<string[]>;
   public foodLoadingStatus$: Observable<boolean>;
-  public selectedCategory: string = "All";
+  public selectedCategory = 'All';
 
   constructor(private store: Store<FoodState>, private router: Router) { }
 

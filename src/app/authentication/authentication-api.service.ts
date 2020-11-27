@@ -68,36 +68,36 @@ export class AuthenticationApiService {
       password: '123456',
       role: 'staff'
     }
-  }
+  };
 
   constructor() { }
 
   getUserAuthStatus(): SessionData | null {
     const serial_user_app_data = sessionStorage.getItem('user_app_data');
-    
-    if(!serial_user_app_data) {
+
+    if (!serial_user_app_data) {
       return null;
     }
 
     try {
       const json_user_app_data: SessionData = JSON.parse(serial_user_app_data);
       return json_user_app_data;
-    } catch(err) {
-      console.log("auth-api service", "Error : ", err);
+    } catch (err) {
+      console.log('auth-api service', 'Error : ', err);
       return null;
     }
   }
 
-  loginUser(credentials: LoginCredential) : Observable<LoginResponse> {
+  loginUser(credentials: LoginCredential): Observable<LoginResponse> {
     try {
       const userFromEmail = this.userList[credentials.email];
-      if(userFromEmail == null) {
-        throw "Invalid User email or password";
+      if (userFromEmail == null) {
+        throw new Error('Invalid User email or password');
       }
 
       const isValidPassword = credentials.password == userFromEmail.password;
-      if(!isValidPassword) {
-        throw "Invalid User email or password";
+      if (!isValidPassword) {
+        throw new Error('Invalid User email or password');
       }
 
       const json_user_app_data: SessionData = {
@@ -109,35 +109,35 @@ export class AuthenticationApiService {
 
       sessionStorage.setItem('user_app_data', JSON.stringify(json_user_app_data));
 
-      return of({ 
-        success: true, 
-        data: { 
-          name: userFromEmail.name, 
+      return of({
+        success: true,
+        data: {
+          name: userFromEmail.name,
           email: userFromEmail.email ,
-          role: "user", 
-          token: userFromEmail.token, 
-        }, 
+          role: 'user',
+          token: userFromEmail.token,
+        },
         error: null
       }).pipe(delay(2000));
-    } catch(err) {
-      return of({ 
-        success: false, 
-        data: null, 
+    } catch (err) {
+      return of({
+        success: false,
+        data: null,
         error: err
       }).pipe(delay(2000));
-    }    
+    }
   }
 
-  loginStaff(credentials: LoginCredential) : Observable<LoginResponse> {
+  loginStaff(credentials: LoginCredential): Observable<LoginResponse> {
     try {
       const userFromEmail = this.staffList[credentials.email];
-      if(!userFromEmail) {
-        throw "Invalid User email or password";
+      if (!userFromEmail) {
+        throw new Error('Invalid User email or password');
       }
 
       const isValidPassword = credentials.password == userFromEmail.password;
-      if(!isValidPassword) {
-        throw "Invalid User email or password";
+      if (!isValidPassword) {
+        throw new Error('Invalid User email or password');
       }
 
       const json_user_app_data: SessionData = {
@@ -149,20 +149,20 @@ export class AuthenticationApiService {
 
       sessionStorage.setItem('user_app_data', JSON.stringify(json_user_app_data));
 
-      return of({ 
-        success: true, 
-        data: { 
-          name: userFromEmail.name, 
+      return of({
+        success: true,
+        data: {
+          name: userFromEmail.name,
           email: userFromEmail.email ,
-          role: userFromEmail.role, 
-          token: userFromEmail.token, 
-        }, 
+          role: userFromEmail.role,
+          token: userFromEmail.token,
+        },
         error: null
       }).pipe(delay(2000));
-    } catch(err) {
-      return of({ 
-        success: false, 
-        data: null, 
+    } catch (err) {
+      return of({
+        success: false,
+        data: null,
         error: err
       }).pipe(delay(2000));
     }
@@ -171,8 +171,8 @@ export class AuthenticationApiService {
   registerUser(data: UserRegistrationModel): Observable<LoginResponse> {
     try {
       const userFromList = this.userList[data.email];
-      if(userFromList) {
-        throw "Email already exists";
+      if (userFromList) {
+        throw new Error('Email already exists');
       }
 
       this.userList[data.email] = {
@@ -180,7 +180,7 @@ export class AuthenticationApiService {
         email: data.email,
         token: data.name + ' token',
         password: data.password
-      }
+      };
 
       const json_user_app_data: SessionData = {
         name: data.name,
@@ -191,20 +191,20 @@ export class AuthenticationApiService {
 
       sessionStorage.setItem('user_app_data', JSON.stringify(json_user_app_data));
 
-      return of({ 
-        success: true, 
-        data: { 
-          name: this.userList[data.email].name, 
+      return of({
+        success: true,
+        data: {
+          name: this.userList[data.email].name,
           email: this.userList[data.email].email ,
-          role: "user", 
-          token: this.userList[data.email].token, 
-        }, 
+          role: 'user',
+          token: this.userList[data.email].token,
+        },
         error: null
       }).pipe(delay(2000));
-    } catch(err) {
-      return of({ 
-        success: false, 
-        data: null, 
+    } catch (err) {
+      return of({
+        success: false,
+        data: null,
         error: err
       }).pipe(delay(2000));
     }

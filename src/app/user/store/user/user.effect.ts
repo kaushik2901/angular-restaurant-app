@@ -21,14 +21,14 @@ export class UserEffects {
         ofType(userAction.loadCart),
         take(1),
         tap(() => {
-            console.log("loading");
+            console.log('loading');
             this.store.dispatch(userAction.loadingCart());
         }),
         concatMap(() => {
             return this.userApi.getCart()
                 .pipe(
                     map(response => {
-                        if(!response.success) {                          
+                        if (!response.success) {
                             throw response.error;
                         }
                         this.store.dispatch(userAction.loadCartSuccess({ data: response.data }));
@@ -36,7 +36,7 @@ export class UserEffects {
                     catchError(error => {
                         this.store.dispatch(userAction.loadCartError({ errorMessage: error }));
                         alert(error);
-                        return EMPTY
+                        return EMPTY;
                     }),
                 );
         }),
@@ -49,7 +49,7 @@ export class UserEffects {
     //         return this.store.select(getCartList)
     //         .pipe(
     //             concatMap(cartList => {
-                    
+
     //             })
     //         )
     //     }),
@@ -58,16 +58,16 @@ export class UserEffects {
     //     //     for (let i = 0; i < cartList.length; i++) {
     //     //         const item = cartList[i];
     //     //         if(this.isBothItemAreEqual(item, data.item)) {
-    //     //             console.log("updating old item");                            
+    //     //             console.log("updating old item");
     //     //             const newItem = Object.assign({}, item);
     //     //             newItem.quantity = item.quantity + data.item.quantity;
     //     //             this.store.dispatch(userAction.updateCart({ item: newItem }));
     //     //             return null;
     //     //         }
     //     //     }
-    //     //     console.log("adding new item");                    
+    //     //     console.log("adding new item");
     //     //     this.store.dispatch(userAction.addToCart(data));
-    //     //     return null;                    
+    //     //     return null;
     //     // }),
     // );
 }

@@ -15,17 +15,17 @@ export class LoginFormComponent implements OnInit {
     email: '',
     password: '',
   };
-  
-  public nextClicked: boolean = false;
+
+  public nextClicked = false;
 
   constructor() { }
 
   ngOnInit(): void {
-  
+
   }
 
   submitForm() {
-    if(this.nextClicked) {
+    if (this.nextClicked) {
       this.submit.emit({
         loginType: 'user',
         data: Object.assign({}, this.credentialModel),

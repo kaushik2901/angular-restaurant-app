@@ -17,7 +17,7 @@ export class FoodApiService {
   private categories: string[] = [];
 
 
-  constructor() { 
+  constructor() {
     this.foodData = foods;
   }
 

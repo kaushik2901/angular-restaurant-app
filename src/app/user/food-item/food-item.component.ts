@@ -21,19 +21,19 @@ export class FoodItemComponent implements OnInit, OnDestroy {
 
   public isUpdating: boolean;
   public oldId: string;
-  public shouldUpdate: boolean = false;
+  public shouldUpdate = false;
 
   public cartForm: FormGroup;
 
   public foodId: string;
   private pageParamMap$: Subscription;
-  
-  public isLoadingFood: boolean = true;
-  public showCartOptions: boolean = false;
+
+  public isLoadingFood = true;
+  public showCartOptions = false;
   public food: Food;
   public foodSubscription: Subscription;
   public cardListSubscription: Subscription;
-  
+
   public calculatedFoodPrice: number;
   public selectedVarient: FoodVarients = null;
 
@@ -47,7 +47,7 @@ export class FoodItemComponent implements OnInit, OnDestroy {
       })
     ).subscribe((paramMap) => {
       this.foodId = paramMap.get('id');
-      if(this.isUpdating) {
+      if (this.isUpdating) {
         this.getCartItem();
       } else {
         this.getFoodItem();
@@ -58,14 +58,14 @@ export class FoodItemComponent implements OnInit, OnDestroy {
   getFoodItem() {
     this.foodSubscription = this.store.select(getFoodItemById(this.foodId)).pipe(
       concatMap(data => {
-        if(!data) {
+        if (!data) {
           this.store.dispatch(foodAction.loadFoods());
           return this.store.select(getFoodItemById(this.foodId));
         }
         return of(data);
       })
     ).subscribe(data => {
-      if(data) {
+      if (data) {
         this.food = data;
         this.isLoadingFood = false;
 
@@ -74,7 +74,7 @@ export class FoodItemComponent implements OnInit, OnDestroy {
           addOns: this.fb.array(this.food.addOns.map(addOn => false)),
           qty: [1, Validators.required],
           finalPrice: [parseFloat(this.food.basePrice.toString()), Validators.required],
-        })
+        });
       }
     });
   }
@@ -86,23 +86,23 @@ export class FoodItemComponent implements OnInit, OnDestroy {
         return of(data);
       })
     ).subscribe(data => {
-      if(data) {
+      if (data) {
         this.food = data.food;
         this.isLoadingFood = false;
         this.oldId = data._id;
 
         this.cartForm = this.fb.group({
-          varient: [data.varient == null? 'base_value' : data.varient._id, Validators.required],
+          varient: [data.varient == null ? 'base_value' : data.varient._id, Validators.required],
           addOns: this.fb.array(data.food.addOns.map(addOn => {
             // console.log("addonCheck", data.addOns.find(add => add._id == addOn._id));
             const temp = data.addOns.find(add => add._id == addOn._id);
-            return temp != null ? true: false;
+            return temp != null ? true : false;
           })),
           qty: [data.quantity, Validators.required],
           finalPrice: [data.finalPrice, Validators.required],
-        })
+        });
       }
-    })
+    });
   }
 
   // Form functions [Start] -------------------
@@ -114,21 +114,21 @@ export class FoodItemComponent implements OnInit, OnDestroy {
     this.cartForm.patchValue({
       addOn: oldValues,
       finalPrice: data.checked ? oldFinalPrice + addedPrice : oldFinalPrice - addedPrice,
-    })
+    });
   }
 
   radioChange(data) {
     const varient: FoodVarients = this.food.varients.filter(v => v._id == data.value)[0];
     this.cartForm.patchValue({
       finalPrice: parseFloat(this.food.basePrice.toString()) + (varient ? parseFloat(varient.addedPrice.toString()) : 0),
-    })
+    });
   }
 
   addQty(value: number) {
-    if(this.cartForm.get('qty').value + value >= 1 && this.cartForm.get('qty').value + value < 100) {
+    if (this.cartForm.get('qty').value + value >= 1 && this.cartForm.get('qty').value + value < 100) {
       this.cartForm.patchValue({
         qty: this.cartForm.get('qty').value + value
-      }); 
+      });
     }
   }
 
@@ -137,7 +137,7 @@ export class FoodItemComponent implements OnInit, OnDestroy {
   }
 
   selectVarient(varient: FoodVarients) {
-    if(varient == null) {
+    if (varient == null) {
       this.selectedVarient = null;
       this.calculatedFoodPrice = parseFloat(this.food.basePrice.toString());
       return;
@@ -153,12 +153,12 @@ export class FoodItemComponent implements OnInit, OnDestroy {
   }
 
   isBothItemAreEqual(item1: MyCartItem, item2: MyCartItem): boolean {
-    if(
+    if (
         item1.food._id != item2.food._id ||
         item1.varient?._id != item2.varient?._id ||
         item1.addOns.length != item2.addOns.length
     ){
-        console.log("different");          
+        console.log('different');
         console.log(item1.food._id != item2.food._id , item1.food._id, item2.food._id , );
         console.log(item1.varient?._id != item2.varient?._id , item1.varient?._id, item2.varient?._id , );
         console.log(item1.addOns.length != item2.addOns.length, item1.addOns.length, item2.addOns.length, );
@@ -168,11 +168,11 @@ export class FoodItemComponent implements OnInit, OnDestroy {
     for (let i = 0; i < item1.addOns.length; i++) {
         const addOn1 = item1.addOns[i]._id;
         const addOn2 = item2.addOns[i]._id;
-        if(addOn1 != addOn2) {
+        if (addOn1 != addOn2) {
             return false;
         }
     }
-    
+
     return true;
   }
 
@@ -182,44 +182,44 @@ export class FoodItemComponent implements OnInit, OnDestroy {
 
     const currentVarient = formValue.varient == 'base_value' ? null : this.food.varients.filter(f => f._id == formValue.varient)[0];
     const addOns = [];
-    
 
-    console.log("food", this.food);
-    
+
+    console.log('food', this.food);
+
 
     for (let i = 0; i < this.food.addOns.length; i++) {
       const element = this.food.addOns[i];
-      if(formValue.addOns[i] == true) {
+      if (formValue.addOns[i] == true) {
         addOns.push(element);
       }
     }
 
 
-    //on Success
+    // on Success
     const finalData: MyCartItem = {
       _id: this.isUpdating ? this.oldId : this.ObjectId().toString(),
       food: this.food,
       varient: currentVarient,
-      addOns: addOns,
+      addOns,
       finalPrice: formValue.finalPrice,
       quantity: formValue.qty,
       timeStamp: new Date(),
-    }
+    };
 
 
-    if(this.isUpdating) {
-      console.log("isUpdating");
-      console.log(finalData);      
+    if (this.isUpdating) {
+      console.log('isUpdating');
+      console.log(finalData);
       this.userStore.dispatch(userAction.updateCart({ item: finalData }));
     } else {
       this.cardListSubscription = this.store.select(getCartList)
       .pipe(take(1))
       .subscribe(cartList => {
-        console.log("cart List", cartList.length, cartList);
+        console.log('cart List', cartList.length, cartList);
         for (let i = 0; i < cartList.length; i++) {
             const item = cartList[i];
-            if(this.isBothItemAreEqual(item, finalData)) {
-                console.log("updating old item");                            
+            if (this.isBothItemAreEqual(item, finalData)) {
+                console.log('updating old item');
                 const newItem = Object.assign({}, item);
                 newItem.quantity = item.quantity + finalData.quantity;
                 this.store.dispatch(userAction.updateCart({ item: newItem }));
@@ -227,7 +227,7 @@ export class FoodItemComponent implements OnInit, OnDestroy {
                 return;
             }
         }
-        console.log("adding new item");                    
+        console.log('adding new item');
         this.store.dispatch(userAction.addToCart({ item: finalData }));
         this.cardListSubscription?.unsubscribe();
         return;

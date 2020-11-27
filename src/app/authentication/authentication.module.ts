@@ -36,9 +36,9 @@ import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
-    LoginComponent, 
-    RegisterComponent, 
-    LoginFormComponent, 
+    LoginComponent,
+    RegisterComponent,
+    LoginFormComponent,
     RegistrationFormComponent,
   ],
   imports: [

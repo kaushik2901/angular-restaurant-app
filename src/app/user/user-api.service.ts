@@ -20,7 +20,7 @@ export class UserApiService {
   }
 
   checkOutItem(orderItems: MyOrderItem): Observable<{ success: boolean, error: string | null }> {
-    if(!localStorage.getItem('order_queue')) {
+    if (!localStorage.getItem('order_queue')) {
       localStorage.setItem('order_queue', JSON.stringify([]));
     }
 

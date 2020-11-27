@@ -12,7 +12,7 @@ import { getBadgeCounts } from '../store/user/user.selector';
 })
 export class ShellComponent implements OnInit, OnDestroy {
 
-  public myCartBadgeCount: number = 0;
+  public myCartBadgeCount = 0;
   public myCartBadgeCountSubscription: Subscription;
 
   public menuList: MenuItem[];

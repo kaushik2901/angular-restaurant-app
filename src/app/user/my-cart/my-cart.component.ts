@@ -15,10 +15,10 @@ import { data } from 'src/app/shared/models/foodData3';
   styleUrls: ['./my-cart.component.css']
 })
 export class MyCartComponent implements OnInit, OnDestroy {
-  
+
   public cartList$: Observable<MyCartItem[]>;
   public totalPrice$: Observable<number>;
-  public isChecingOut: boolean = false;
+  public isChecingOut = false;
   public checkoutSubscription: Subscription;
 
   constructor(private store: Store<UserState>, private router: Router, private userApi: UserApiService) { }
@@ -54,17 +54,17 @@ export class MyCartComponent implements OnInit, OnDestroy {
     .pipe(
       take(1),
       concatMap(data => {
-        if(data) {
+        if (data) {
           return this.userApi.checkOutItem({
             _id: this.ObjectId(),
             cartItems: data,
             orderStatus: OrderStatus.pending,
             timeStamp: new Date()
-          })
+          });
         }
       })
     ).subscribe(data => {
-      console.log("checkout response", data);   
+      console.log('checkout response', data);
       this.isChecingOut = false;
       this.clearCart();
     });

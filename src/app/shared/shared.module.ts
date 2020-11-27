@@ -19,7 +19,7 @@ import { WithFixedFloatPipe } from './pips/with-fixed-float.pipe';
 
 
 @NgModule({
-  declarations: [NavbarComponent, FoodTileUiComponent, MyCartTileUiComponent, WithFixedFloatPipe,],
+  declarations: [NavbarComponent, FoodTileUiComponent, MyCartTileUiComponent, WithFixedFloatPipe, ],
   imports: [
     CommonModule,
     RouterModule,

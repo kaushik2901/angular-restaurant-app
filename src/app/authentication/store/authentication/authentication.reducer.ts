@@ -5,10 +5,10 @@ import { AuthState } from '../../models/authState.model';
 export const initialState: AuthState = {
     isLoading: false,
     isAuthenticated: false,
-    errorMessage: "",
-    token: "",
-    role: "",
-}
+    errorMessage: '',
+    token: '',
+    role: '',
+};
 
 export const reducer = createReducer(
     initialState,
@@ -16,12 +16,12 @@ export const reducer = createReducer(
         ...state,
         isLoading: true,
     })),
-    on(authenticationAction.loginUserSuccess, (state, { name, token }) => ({ 
-        ...state, 
-        token, 
-        name, 
-        isLoading: false, 
-        isAuthenticated: true 
+    on(authenticationAction.loginUserSuccess, (state, { name, token }) => ({
+        ...state,
+        token,
+        name,
+        isLoading: false,
+        isAuthenticated: true
     })),
     on(authenticationAction.loginUserFail, (state, { errorMessage }) => ({
         ...state,
@@ -29,4 +29,4 @@ export const reducer = createReducer(
         isLoading: false,
         isAuthenticated: false,
     })),
-)
+);
